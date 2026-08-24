@@ -1,4 +1,3 @@
-
 name: Build Livo APK
 
 on:
@@ -12,22 +11,29 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
+      - name: تحميل المشروع
         uses: actions/checkout@v4
 
-      - name: Setup Flutter
+      - name: إعداد Flutter
         uses: subosito/flutter-action@v2
         with:
           flutter-version: '3.24.5'
           channel: stable
 
-      - name: Install packages
+      - name: إنشاء ملفات Android
+        run: |
+          flutter create --platforms=android temp_livo
+          cp -r temp_livo/android .
+          cp temp_livo/.metadata .
+          cp temp_livo/analysis_options.yaml .
+
+      - name: تثبيت الحزم
         run: flutter pub get
 
-      - name: Build APK
+      - name: بناء APK
         run: flutter build apk --release
 
-      - name: Upload APK
+      - name: رفع APK
         uses: actions/upload-artifact@v4
         with:
           name: Livo-APK
