@@ -2,8 +2,7 @@ name: Build Livo APK
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
   workflow_dispatch:
 
 jobs:
@@ -24,8 +23,6 @@ jobs:
         run: |
           flutter create --platforms=android temp_livo
           cp -r temp_livo/android .
-          cp temp_livo/.metadata .
-          cp temp_livo/analysis_options.yaml .
           sed -i 's/minSdk = flutter.minSdkVersion/minSdk = 23/' android/app/build.gradle.kts
 
       - name: Install packages
